@@ -3,6 +3,8 @@ package entities;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 import ENUM.Periodicità;
 import lombok.Getter;
@@ -15,6 +17,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Riviste extends Catalogo {
 
+	@Enumerated(EnumType.STRING)
 	private Periodicità periodo;
 
 	public Riviste(String titolo, LocalDate annoPubblicazione, int numeroPagine, Periodicità periodo) {
