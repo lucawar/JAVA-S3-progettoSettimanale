@@ -27,7 +27,7 @@ public class Prestito {
 	private long id;
 
 	@ManyToOne
-	@JoinColumn(name = "utente_id", referencedColumnName = "numeroTessera", nullable = false)
+	@JoinColumn(name = "utente_id", referencedColumnName = "id", nullable = false)
 	private Utente utente;
 
 	@ManyToOne

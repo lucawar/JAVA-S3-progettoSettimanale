@@ -9,7 +9,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
 import entities.Catalogo;
-import entities.Libri;
 
 public class CatalogoDAO {
 
@@ -65,8 +64,8 @@ public class CatalogoDAO {
 	}
 
 	// METODO CERCA PER AUTORE
-	public Set<Libri> findByAutore(String autore) {
-		TypedQuery<Libri> query = em.createQuery("SELECT l FROM Libri l WHERE l.autore = :autore", Libri.class);
+	public Set<Catalogo> findByAutore(String autore) {
+		TypedQuery<Catalogo> query = em.createQuery("SELECT l FROM Libri l WHERE l.autore = :autore", Catalogo.class);
 		query.setParameter("autore", autore);
 		return new HashSet<>(query.getResultList());
 	}
