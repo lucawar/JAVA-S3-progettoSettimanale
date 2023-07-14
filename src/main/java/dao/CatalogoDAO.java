@@ -1,9 +1,15 @@
 package dao;
 
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 
 import entities.Catalogo;
+import entities.Libri;
 
 public class CatalogoDAO {
 
@@ -13,6 +19,7 @@ public class CatalogoDAO {
 		this.em = em;
 	}
 
+	// METODO SALVA CATALOGO
 	public void save(Catalogo s) {
 		EntityTransaction t = em.getTransaction();
 		t.begin();
@@ -24,14 +31,16 @@ public class CatalogoDAO {
 		System.out.println("Catalogo salvato correttamente");
 	}
 
-	public Catalogo findById(long id) {
-		Catalogo found = em.find(Catalogo.class, id);
+	// METODO CERCA CATALOGO PER ISBN
+	public Catalogo findByIsbn(String isbn) {
+		Catalogo found = em.find(Catalogo.class, isbn);
 		return found;
 	}
 
-	public void findByIdAndDelete(long id) {
+	// METODO CANCELLA CATALOGO PER ISBN
+	public void findByIsbnAndDelete(String isbn) {
 
-		Catalogo found = em.find(Catalogo.class, id);
+		Catalogo found = em.find(Catalogo.class, isbn);
 		if (found != null) {
 
 			EntityTransaction t = em.getTransaction();
@@ -47,16 +56,26 @@ public class CatalogoDAO {
 		}
 	}
 
-	public void refresh(long id) {
-		Catalogo found = em.find(Catalogo.class, id);
-		found.setTitolo("");
+	// METODO CERCA CATALOGO PER ANNO DI PUBBLICAZIONE
+	public Set<Catalogo> findByAnnoPubblicazione(LocalDate annoPubblicazione) {
+		TypedQuery<Catalogo> query = em
+				.createQuery("SELECT c FROM Catalogo c WHERE c.annoPubblicazione = :annoPubblicazione", Catalogo.class);
+		query.setParameter("annoPubblicazione", annoPubblicazione);
+		return new HashSet<>(query.getResultList());
+	}
 
-		System.out.println("PRE REFRESH");
-		System.out.println(found);
+	// METODO CERCA PER AUTORE
+	public Set<Libri> findByAutore(String autore) {
+		TypedQuery<Libri> query = em.createQuery("SELECT l FROM Libri l WHERE l.autore = :autore", Libri.class);
+		query.setParameter("autore", autore);
+		return new HashSet<>(query.getResultList());
+	}
 
-		em.refresh(found);
-		System.out.println("POST REFRESH");
-		System.out.println(found);
-
+	// METODO CERCA CATALOGO PER TITOLO
+	public Set<Catalogo> findByTitolo(String titolo) {
+		TypedQuery<Catalogo> query = em
+				.createQuery("SELECT c FROM Catalogo c WHERE LOWER(c.titolo) LIKE LOWER(:titolo)", Catalogo.class);
+		query.setParameter("titolo", "%" + titolo + "%");
+		return new HashSet<>(query.getResultList());
 	}
 }
