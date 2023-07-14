@@ -95,18 +95,12 @@ public class MainArchivio {
 		System.out.println("Catalogo trovato per anno di pubblicazione: " + catalogoByAnnoPubblicazione);
 
 		// CERCA PER AUTORE
-		Set<Catalogo> libriByAutore = catalogoDAO.findByAutore("J.R.R. Tolkien");
-		System.out.println("Catalogo trovatO per autore: " + libriByAutore);
+		Set<Catalogo> catalogoByAutore = catalogoDAO.findByAutore("J.R.R. Tolkien");
+		System.out.println("Catalogo trovatO per autore: " + catalogoByAutore);
 
 		// CERCA CATALOGO PER TITOLO
 		Set<Catalogo> catalogoByTitolo = catalogoDAO.findByTitolo("Il Signore Degli Anelli");
 		System.out.println("Catalogo trovato per titolo: " + catalogoByTitolo);
-
-		// METODI UtenteDAO
-
-		// CERCA UTENTI PER ID
-		Utente utenteById = utenteDAO.findById(1);
-		System.out.println("Utente trovato per ID: " + utenteById);
 
 		// METODI prestitoDAO
 
